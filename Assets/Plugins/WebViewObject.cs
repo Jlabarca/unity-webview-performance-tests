@@ -401,7 +401,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_IPHONE
         webView = _CWebViewPlugin_Init(name, transparent, ua, enableWKWebView);
 #elif UNITY_ANDROID
-        webView = new AndroidJavaObject("net.gree.unitywebview.CWebViewPlugin");
+        webView = new AndroidJavaObject("com.n3twork.scale.testapp.androidplugin.CWebViewPlugin");
         webView.Call("Init", name, transparent, ua);
 #else
         Debug.LogError("Webview is not supported on this platform.");
