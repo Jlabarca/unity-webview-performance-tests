@@ -545,23 +545,22 @@ public class CWebViewPlugin extends Fragment {
             }
               webContainer = new FrameLayout(a);
                         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                        webContainer.setBackgroundColor(Color.BLUE);
                         //webContainer.setBackgroundResource(R.drawable.rounded_corners);
                         params.setMargins(10,10,10,10);
                         webContainer.addView(webView, params);
-                        
+
             layout.addView(
                 webContainer,
                 new FrameLayout.LayoutParams(
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT,
                     Gravity.NO_GRAVITY));
-                    
-            layout.animate()
-                            .translationY(10000)
-                            .setDuration(10000)
-                            .setListener(null);
-                            
+
+            webView.animate()
+                    .translationY(10000)
+                    .setDuration(10000)
+                    .setListener(null);
+
             mWebView = webView;
         }});
 
@@ -706,8 +705,7 @@ public class CWebViewPlugin extends Fragment {
             if (mWebView == null) {
                 return;
             }
-            //mWebView.setLayoutParams(params);
-            webContainer.setLayoutParams(params);
+            mWebView.setLayoutParams(params);
         }});
     }
 
