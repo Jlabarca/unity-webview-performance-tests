@@ -1,5 +1,4 @@
 using System.Collections;
-using Extensions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -75,13 +74,12 @@ public class CommunicationWebView : MonoBehaviour
 #endif
                 webViewObject.EvaluateJS(@"Unity.call('ua=' + navigator.userAgent)");
             },
-            //ua: "custom user agent string",
             enableWKWebView: true);
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         webViewObject.bitmapRefreshCycle = 1;
 #endif
 
-      webViewObject.SetRectTransformMargin(rectTransform);
+      //webViewObject.SetRectTransformMargin(rectTransform);
 
       var src = System.IO.Path.Combine(Application.streamingAssetsPath, url);
       var dst = System.IO.Path.Combine(Application.persistentDataPath, url);
@@ -98,19 +96,6 @@ public class CommunicationWebView : MonoBehaviour
       System.IO.File.WriteAllBytes(dst, result);
       webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
       webViewObject.SetVisibility(true);
-
-    }
-
-    public void SendMessage(string msg)
-    {
-      webViewObject.EvaluateJS(
-        "parent.$(function() {" +
-        "   window.Unity = {" +
-        "       call:function("+ msg +") {" +
-        "           parent.unityWebView.sendMessage('WebViewObject', msg)" +
-        "       }" +
-        "   };" +
-        "});");
     }
 
     public void HideShowWebView()

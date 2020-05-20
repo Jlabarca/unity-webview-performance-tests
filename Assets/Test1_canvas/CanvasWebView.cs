@@ -2,7 +2,6 @@ using System.Collections;
 using Extensions;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 
 public class CanvasWebView : MonoBehaviour
 {
@@ -29,7 +28,6 @@ public class CanvasWebView : MonoBehaviour
             {
                 Debug.Log($"CallOnLoaded[{msg}]");
             },
-            //ua: "custom user agent string",
             enableWKWebView: true);
 
         webViewObject.SetRectTransformMargin(rectTransform);

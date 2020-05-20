@@ -2,7 +2,6 @@ using System.Collections;
 using Extensions;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 
 public class AnimatedWebView : MonoBehaviour
 {
@@ -29,17 +28,14 @@ public class AnimatedWebView : MonoBehaviour
             {
                 Debug.Log($"CallOnLoaded[{msg}]");
             },
-            //ua: "custom user agent string",
             enableWKWebView: true);
 
         webViewObject.SetRectTransformMargin(rectTransform);
-        //yield return webViewObject.LoadLocal(url);
-        Debug.Log("VAR");
+
         var src = System.IO.Path.Combine(Application.streamingAssetsPath, url);
         var dst = System.IO.Path.Combine(Application.persistentDataPath, url);
-        Debug.Log(src);
-        Debug.Log(dst);
-        byte[] result = null;
+        byte[] result;
+
         if (src.Contains("://")) {  // for Android
             var www = UnityWebRequest.Get(src);
             yield return www.SendWebRequest();
@@ -47,11 +43,10 @@ public class AnimatedWebView : MonoBehaviour
         } else {
             result = System.IO.File.ReadAllBytes(src);
         }
+
         System.IO.File.WriteAllBytes(dst, result);
         webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
         webViewObject.SetVisibility(true);
-
-        yield break;
     }
 
     public void HideShowWebView()
