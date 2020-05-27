@@ -31,21 +31,30 @@ public class CanvasWebView : MonoBehaviour
             enableWKWebView: true);
 
         webViewObject.SetRectTransformMargin(rectTransform);
+        if (url.Contains("http"))
+        {
+            webViewObject.LoadURL(url);
+        }
+        else
+        {
+            var src = System.IO.Path.Combine(Application.streamingAssetsPath, url);
+            var dst = System.IO.Path.Combine(Application.persistentDataPath, url);
+            byte[] result;
 
-        var src = System.IO.Path.Combine(Application.streamingAssetsPath, url);
-        var dst = System.IO.Path.Combine(Application.persistentDataPath, url);
-        byte[] result;
+            if (src.Contains("://")) {  // for Android
+                var www = UnityWebRequest.Get(url);
+                yield return www.SendWebRequest();
+                result = www.downloadHandler.data;
+            } else {
+                result = System.IO.File.ReadAllBytes(src);
+            }
 
-        if (src.Contains("://")) {  // for Android
-            var www = UnityWebRequest.Get(src);
-            yield return www.SendWebRequest();
-            result = www.downloadHandler.data;
-        } else {
-            result = System.IO.File.ReadAllBytes(src);
+            System.IO.File.WriteAllBytes(dst, result);
+            webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
         }
 
-        System.IO.File.WriteAllBytes(dst, result);
-        webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
+
+
         webViewObject.SetVisibility(true);
     }
 
